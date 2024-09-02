@@ -1,0 +1,58 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: transparent;
+}
+
+.container {
+    perspective: 1500px;
+    position: relative;
+}
+
+.card {
+    width: 148mm; /* Breite von DIN A6 */
+    height: 105mm; /* Höhe von DIN A6 */
+    position: relative;
+    transform-style: preserve-3d;
+    transform: rotateY(60deg) rotateX(30deg); /* Stärker angewinkelte Ausgangsposition */
+    transition: transform 1s;
+    z-index: 1; /* Sicherstellen, dass die Karte über dem Schatten liegt */
+}
+
+.shadow {
+    position: absolute;
+    bottom: -25px; /* Abstand des Schattens von der Karte */
+    width: 160mm; /* Etwas breiter als die Karte */
+    height: 50mm; /* Höhe des Schattens */
+    background-color: rgba(0, 0, 0, 0.3); /* Dunkleres, transparentes Oval */
+    border-radius: 50%; /* Ovaler Schatten */
+    filter: blur(20px); /* Weiche Kanten */
+    z-index: -1; /* Schatten unter der Karte platzieren */
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+}
+
+.front {
+    background-color: transparent;
+}
+
+.back {
+    background-color: transparent;
+    transform: rotateY(180deg);
+}
+
+img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
