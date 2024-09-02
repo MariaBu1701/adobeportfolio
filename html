@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Postkarte</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: transparent;
+        }
+
+        .container {
+            perspective: 1500px;
+            position: relative;
+        }
+
+        .card {
+            width: 148mm; /* Breite von DIN A6 */
+            height: 105mm; /* Höhe von DIN A6 */
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotateY(60deg) rotateX(30deg); /* Stärker angewinkelte Ausgangsposition */
+            transition: transform 1s;
+            z-index: 1; /* Sicherstellen, dass die Karte über dem Schatten liegt */
+        }
+
+        .shadow {
+            position: absolute;
+            bottom: -25px; /* Abstand des Schattens von der Karte */
+            width: 160mm; /* Etwas breiter als die Karte */
+            height: 50mm; /* Höhe des Schattens */
+            background-color: rgba(0, 0, 0, 0.3); /* Dunkleres, transparentes Oval */
+            border-radius: 50%; /* Ovaler Schatten */
+            filter: blur(20px); /* Weiche Kanten */
+            z-index: -1; /* Schatten unter der Karte platzieren */
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+        }
+
+        .front {
+            background-color: transparent;
+        }
+
+        .back {
+            background-color: transparent;
+            transform: rotateY(180deg);
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="face front">
+                <img src="https://images.unsplash.com/photo-1718808968541-7ec23c57ffc3?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MjUzMDIzMDR8&ixlib=rb-4.0.3&q=85g" alt="Vorderseite Postkarte">
+            </div>
+            <div class="face back">
+                <img src="https://images.unsplash.com/photo-1718808968541-7ec23c57ffc3?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MjUzMDIzMDR8&ixlib=rb-4.0.3&q=85" alt="Rückseite Postkarte">
+            </div>
+        </div>
+        <div class="shadow"></div>
+    </div>
+    <script>
+        const card = document.querySelector('.card');
+
+        document.addEventListener('mousemove', function(event) {
+            let rotateY = (event.clientX / window.innerWidth * 360) - 180; // Vollständige 360°-Drehung
+            let rotateX = (event.clientY / window.innerHeight * 20) - 10;  // Kleiner Neigungswinkel nach oben/unten
+            card.style.transform = `rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
+        });
+    </script>
+</body>
+</html>
